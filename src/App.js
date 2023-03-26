@@ -17,17 +17,18 @@ const storeItems = [
 function App() {
   let [basketItems, setBasketItems] = useState([]); //useState ile basketItems değişkeni oluşturduk ve bunun başlangıç değer
   let [searchValue, setSearchValue] = useState(""); //useState ile search değişkeni oluşturduk ve bunun başlangıç değeri boş bir string
-  let filteredItems = basketItems.filter((item) => item.name.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0);
+  let filteredItems = storeItems.filter((item) => item.name.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0);
   return (
     <Container>
+      <Input.Wrapper label="Arama">
+        <Input onChange={(e) => setSearchValue(e.target.value)} />
+      </Input.Wrapper>
       <SimpleGrid cols={3} className="Store">
         {storeItems.map(({ name, src }) => {
           return <Card key={name} name={name} src={src} onAdd={() => setBasketItems([...basketItems, { name }])} />; //bir nesneyi map ile döndürürken unique key vermek zorundayız
         })}
       </SimpleGrid>
-      <Input.Wrapper label="Arama">
-        <Input onChange={(e) => setSearchValue(e.target.value)} />
-      </Input.Wrapper>
+
       <List
         className="List"
         spacing="xs"
