@@ -24,7 +24,7 @@ function App() {
         <Input onChange={(e) => setSearchValue(e.target.value)} />
       </Input.Wrapper>
       <SimpleGrid cols={3} className="Store">
-        {storeItems.map(({ name, src }) => {
+        {filteredItems.map(({ name, src }) => {
           return <Card key={name} name={name} src={src} onAdd={() => setBasketItems([...basketItems, { name }])} />; //bir nesneyi map ile döndürürken unique key vermek zorundayız
         })}
       </SimpleGrid>
@@ -40,7 +40,7 @@ function App() {
           </ThemeIcon>
         }
       >
-        {filteredItems.map(({ name }, index) => {
+        {basketItems.map(({ name }, index) => {
           return <List.Item key={name + index}>{name}</List.Item>;
         })}
       </List>
