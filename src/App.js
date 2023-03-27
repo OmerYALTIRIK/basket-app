@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import "./App.css";
-import { Container, SimpleGrid, List, ThemeIcon, Input, Button, Group } from "@mantine/core";
+import { Container, SimpleGrid, List, ThemeIcon, Input, Button, Group, Drawer } from "@mantine/core";
 import { IconCircleCheck } from "@tabler/icons-react";
 import Card from "./components/Card";
 
@@ -18,6 +18,7 @@ function App() {
   let [basketItems, setBasketItems] = useState([]); //useState ile basketItems değişkeni oluşturduk ve bunun başlangıç değer
   let [searchValue, setSearchValue] = useState(""); //useState ile search değişkeni oluşturduk ve bunun başlangıç değeri boş bir string
   let filteredItems = storeItems.filter((item) => item.name.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0);
+  let [opened, setOpened] = useState(false);
   return (
     <Container>
       <Group align="end">
@@ -25,28 +26,30 @@ function App() {
           <Input value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
         </Input.Wrapper>
         <Button onClick={() => setSearchValue("")}>Temizle</Button>
+        <Button onClick={() => setOpened(true)}>Sepet</Button>
       </Group>
       <SimpleGrid cols={3} className="Store">
         {filteredItems.map(({ name, src }) => {
           return <Card key={name} name={name} src={src} onAdd={() => setBasketItems([...basketItems, { name }])} />; //bir nesneyi map ile döndürürken unique key vermek zorundayız
         })}
       </SimpleGrid>
-
-      <List
-        className="List"
-        spacing="xs"
-        size="sm"
-        center
-        icon={
-          <ThemeIcon color="teal" size={24} radius="xl">
-            <IconCircleCheck size="1rem" />
-          </ThemeIcon>
-        }
-      >
-        {basketItems.map(({ name }, index) => {
-          return <List.Item key={name + index}>{name}</List.Item>;
-        })}
-      </List>
+      <Drawer opened={opened} onClose={() => setOpened(false)} title="Sepetim" padding={"md"} size="md">
+        <List
+          className="List"
+          spacing="xs"
+          size="sm"
+          center
+          icon={
+            <ThemeIcon color="teal" size={24} radius="xl">
+              <IconCircleCheck size="1rem" />
+            </ThemeIcon>
+          }
+        >
+          {basketItems.map(({ name }, index) => {
+            return <List.Item key={name + index}>{name}</List.Item>;
+          })}
+        </List>
+      </Drawer>
     </Container>
   );
 }
