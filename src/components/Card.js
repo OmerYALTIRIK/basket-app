@@ -1,4 +1,4 @@
-import { Card, Image, Text, Badge, Button, Group } from "@mantine/core";
+import { Card, Image, Text, Button, Group } from "@mantine/core";
 
 const Cardcomponent = ({ name, src, onAdd }) => {
   return (
